@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>simpleSVG example</title>
+		<script type="text/javascript" src="simplesvg.js"></script>
+		<script type="text/javascript">
+window.onload = function() {
+	/* 
+	initialize the svg object inside element with id container, width and height of 640x480.
+	simpleSVG can also take an HTML node for the first argument i.e document.getElementById('container')
+	*/
+	svg = new simpleSVG("container",640,480);
+	
+	/*
+	create a closed triangle by specifying the corresponding x,y coordinates of each point
+	setting object properties can be chained
+	*/
+	svg.path([10,10,630,470,630,10,10,10]).stroke('brown').fill('#C88').set('stroke-width',3);
+	
+	for(i = 10; i < 620; i+=10) {
+		l = (i / 620)*460 - 20;
+		
+		/*
+		drawing some vertical lines - notice how you can specify the x,y pairs as separate arrays
+		also every single object can be named, for easier referrence later using the last parameter
+		*/
+		if (l>20) svg.path([ [i,20] , [i,l] ] , 'line'+(i/10));
+	}
+	
+	// color line10, line20 etc..
+	for(i=10;i<=60;i+=10)
+		svg.node('line'+i).stroke('yellow');
+		
+	// delete line11, line21 etc...
+	for(i=11;i<=60;i+=10)
+		svg.del('line'+i);
+		
+	// rotate and color line15, line25 etc...
+	for(i=15;i<=60;i+=10)
+		svg.node('line'+i).set('transform','rotate(20, 20, 45)').stroke('blue');
+	
+	// create a named circle
+	svg.circle(100,100,20,'theNameOfMyCircle').css('cursor','pointer');	
+	// and referrence it later, assigning a click event
+	svg.node('theNameOfMyCircle').click(function(){
+		// clear the canvas
+		svg.clear();
+		// and another clickable object
+		svg.text(100,400,"click here to reload").css('fontSize', "18px").click(function(){
+			// this removes the SVG element and all of the associated nodes
+			svg.destroy();
+			// an this is plain dirty :)
+			window.onload();
+		}
+		/*
+		, function(){}
+		you can actually place another function here for the mouseup event
+		*/
+		);
+	});
+	
+	svg.ellipse(100,150,50,20);
+	// hover and mouseout events
+	svg.rect(100,200,100,100).hover(
+		function(){
+			svg.node(this).fill('red');
+		},
+		function(){
+			svg.node(this).fill('black')
+		}
+	);
+	// css properties can be set either via an object or as a single property-value argument pair
+	svg.text(100,400,"simpleSVG").css({fontWeight: "bold", fontSize: "18px"}).css('font-family','Verdana, Arial, Helvetica, sans-serif').fill('#333');
+}
+		</script>
+	</head>
+	<body>
+		<div id="container"></div>
+	</body>
+</html>
