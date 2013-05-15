@@ -87,6 +87,8 @@ Each of the following methods described below, supports giving a name to the cre
 
 All *simpleSVGnodes* created without a name, are named with an automatically generated identifier using the following convention: unnamedObject1, unnamedObject2, unnamedObject3...
 
+Creating a *simpleSVGnode* with a name that is already taken will replace the old object.
+
 ____
 
 **.path**( *array* **path** [ , *string* **name** = "unnamedObject"+N ] )  
