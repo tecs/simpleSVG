@@ -37,9 +37,6 @@
 		if(typeof(type)=='undefined') type = 'undefined';
 		return typeof(variable) == type;
 	}
-	var err = function(message) {
-		if(console) console.error(message);
-	}
 	var toPath = function(xyArr) {
 		if(xyArr.length==0) return '';
 		
